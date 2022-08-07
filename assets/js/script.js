@@ -1,7 +1,19 @@
-var score = 75;
-var startQuizBtn = document.querySelector('#start-quiz-btn');
+var score = document.createElement('span');
+score.className = 'score';
+score.textContent = 0;
+parseInt(score.textContent);
+var timer = document.querySelector('.timer');
+timer.appendChild(score);
+
+var startQuizBtn = document.querySelector('.start-quiz-btn');
+
 var answersEl = document.querySelector('.answers');
+var questionSection = document.querySelector('.question-section');
+var validateAnswer = document.createElement('p');
+validateAnswer.className - 'validate-answer';
+
 var randomNum = 0;
+
 var usedQuestions = [];
 
 var questionsArr = [
@@ -29,9 +41,12 @@ var questionsArr = [
 ];
 
 
+
 var startQuizBtnHandler = function() {
     var startQuizMain = document.querySelector('.start-quiz');
     startQuizMain.remove();
+
+    score.textContent = 75;
 
     displayNextQuestion();
 
@@ -69,26 +84,33 @@ var displayNextQuestion = function() {
  
 var checkAnswer = function(event) {
     var userAnswer = event.target.innerHTML;
+    console.log(event.target);
     console.log(userAnswer);
-     if (userAnswer === questionsArr[randomNum].correctAnswer) {
-    alert('you are correct')
-     } else {
-    alert('you are wrong')
-    score = score - 10;
+    if (userAnswer === questionsArr[randomNum].correctAnswer) {
+        validateAnswer.textContent = 'Correct!';
+        questionSection.appendChild(validateAnswer);
+    } else {
+        validateAnswer.textContent = 'Wrong!';
+        questionSection.appendChild(validateAnswer);
+        score.textContent = score.textContent - 10;
     }
     console.log(score);
 
     if (usedQuestions.length === questionsArr.length) {
-    endGame();
+        endGame();
     }
 
-    displayNextQuestion ();
+    setTimeout(function() {
+        validateAnswer.textContent = '';
+        displayNextQuestion ();
+    }, 1050);
+    
 
 };
 
 var endGame = function() {
     alert('game over!')
-    
+
 
 };
 
