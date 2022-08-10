@@ -13,7 +13,6 @@ var score = 75;
 scoreSpan.textContent = score;
 timer.appendChild(scoreSpan);
 
-
 var startQuizBtn = document.querySelector('.start-quiz-btn');
 
 var endQuiz = document.querySelector('.end-quiz');
@@ -23,6 +22,8 @@ var answersEl = document.querySelector('.answers');
 var questionSection = document.querySelector('.question-section');
 var validateAnswer = document.createElement('p');
 validateAnswer.className = 'validate-answer';
+
+
 
 var resetButtons = [];
 
@@ -106,6 +107,11 @@ var displayNextQuestion = function() {
 };
  
 var checkAnswer = function(event) {
+    var userAnswer = event.target;
+    if (resetButtons.includes(userAnswer)){
+        userAnswer.className = 'user-choice'
+    }
+
     if (resetButtons.length > 0) {
         for (let i = 0; i < resetButtons.length; i++) {
             resetButtons[i].disabled = true;
@@ -113,9 +119,8 @@ var checkAnswer = function(event) {
         resetButtons = [];
     }
 
-    var userAnswer = event.target.textContent;
 
-    if (userAnswer === questionsArr[randomNum].correctAnswer) {
+    if (userAnswer.textContent === questionsArr[randomNum].correctAnswer) {
         validateAnswer.textContent = 'Correct!';
         questionSection.appendChild(validateAnswer);
         
@@ -124,7 +129,8 @@ var checkAnswer = function(event) {
         questionSection.appendChild(validateAnswer);
         score -= 10;
     } 
-  
+    
+    console.log(score)
     if (usedQuestions.length === questionsArr.length) {
         for (let i = 0; i < resetButtons.length; i++) {
             resetButtons[i].disabled = true;
@@ -159,9 +165,56 @@ var endGame = function() {
         finalScore.textContent = 'Your final score is ' + score + '.';
 
     }, 1000);
+
+
 };
 
+var highScores = [];
+
+var userInitialsForm = document.querySelector('#user-initials-form');
+
+var userSubmitHandler = function(event) {
+    event.preventDefault();
+
+    var userInitials = document.querySelector('#initials').value;
+
+    if (!userInitials) {
+        alert('You need to enter your initials!')
+        return false;
+    }
+
+    var highScoreObj = {
+        initials: userInitials,
+        score: score
+    };
+
+    highScores.push(highScoreObj)
+   console.log(highScores)
+};
+
+var saveInitials = function() {
+    localStorage.setItem('initials', JSON.stringify(highScores));
+
+};
+
+var loadHighScores = function () {
+    var highScores = localStorage.getItem("tasks");
+
+    if (!highScores) {
+      return false;
+    }
+  
+    highScores = JSON.parse(highScores);
+
+    for (var i = 0; i < highScores.length; i++) {
+        addHighScoreEl(savedTasks[i]);
+
+    }
+
+};
 
 startQuizBtn.addEventListener('click', startQuizBtnHandler);
+
+userInitialsForm.addEventListener('submit', userSubmitHandler);
 
 

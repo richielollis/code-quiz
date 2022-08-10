@@ -104,18 +104,20 @@ header a:hover {
 
 }
 
-.answer-choices:hover {
-    background-color: rgb(228, 92, 215);
+.answer-choices {
     cursor: pointer;
 }
 
-.answer-choices:focus {
+.user-choice {
     background-color: rgb(228, 92, 215);
-
-}
-
-.answer-choices:target {
-    background-color: rgb(228, 92, 215);
+    color: white;
+    padding: 12px 25px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 40%;
+    height: 20%;
+    text-align: start;
 
 }
 
@@ -133,9 +135,45 @@ header a:hover {
     font-size: 2.3rem;
 }
 
+.end-quiz p {
+    font-size: 1.2rem;
+}
+
+.end-quiz form {
+    margin-top: 60px;
+
+}
+
+.end-quiz form button {
+    background-color: rgb(47, 47, 143);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+
+}
+
+.end-quiz form button:hover {
+    background-color: rgb(228, 92, 215);
+    cursor: pointer;
+
+}
+
+.end-quiz form label {
+    font-size: 1.5rem;
+    
+}
+
+.end-quiz input {
+    padding: 9.5px;
+
+}
+
 .high-scores h2 {
     font-size: 2.3rem;
+
 }
+
 
 .high-scores button {
     background-color: rgb(47, 47, 143);
@@ -143,6 +181,7 @@ header a:hover {
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
+
 }
 
 .high-scores button a {
@@ -150,3 +189,4 @@ header a:hover {
     color: white;
 
 }
+
