@@ -25,10 +25,10 @@ header {
 
 }
 
-header a{
+header a {
     text-decoration: none;
     color: black;
-    
+    padding-right: 677px;
 }
 
 
@@ -71,15 +71,82 @@ header a:hover {
 .start-quiz button:hover {
     background-color: rgb(228, 92, 215);
     cursor: pointer;
+
 }
 
-.quiz-section {
+.question-section {
+    min-width: 600px;
+
+} 
+
+.question {
     padding: 20px;
+}
+
+.answers {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-
+    align-items: flex-start;
 
 }
 
+.answer-choices {
+    background-color: rgb(47, 47, 143);
+    color: white;
+    padding: 12px 25px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 40%;
+    height: 20%;
+    text-align: start;
+
+}
+
+.answer-choices:hover {
+    background-color: rgb(228, 92, 215);
+    cursor: pointer;
+}
+
+.answer-choices:focus {
+    background-color: rgb(228, 92, 215);
+
+}
+
+.answer-choices:target {
+    background-color: rgb(228, 92, 215);
+
+}
+
+.validate-answer {
+    border-top: solid 1px gray;
+    font-style: italic;
+    font-weight: 100;
+    color: gray;
+    font-size: 1.5rem;
+    margin: 33.28px 0px 0px 20px;
+    padding-top: 15px;
+}
+
+.end-quiz h2 {
+    font-size: 2.3rem;
+}
+
+.high-scores h2 {
+    font-size: 2.3rem;
+}
+
+.high-scores button {
+    background-color: rgb(47, 47, 143);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+}
+
+.high-scores button a {
+    text-decoration: none;
+    color: white;
+
+}

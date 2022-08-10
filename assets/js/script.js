@@ -9,9 +9,9 @@ header.appendChild(timer);
 
 var scoreSpan = document.createElement('span');
 scoreSpan.className = 'score';
-scoreSpan.textContent = 0;
+var score = 75;
+scoreSpan.textContent = score;
 timer.appendChild(scoreSpan);
-var score = parseInt(scoreSpan.textContent);
 
 
 var startQuizBtn = document.querySelector('.start-quiz-btn');
@@ -22,7 +22,9 @@ endQuiz.remove();
 var answersEl = document.querySelector('.answers');
 var questionSection = document.querySelector('.question-section');
 var validateAnswer = document.createElement('p');
-validateAnswer.className - 'validate-answer';
+validateAnswer.className = 'validate-answer';
+
+var resetButtons = [];
 
 var randomNum = 0;
 
@@ -51,16 +53,12 @@ var questionsArr = [
     { question: 'A very useful tool used during development and debugging for printing content to the debugger is:',
     answers: ['1. JavaScript', '2. terminal/bash', '3. for loops', '4. console.log'],
     correctAnswer: '4. console.log'}
-
 ];
 
 var startQuizBtnHandler = function() {
     var startQuizMain = document.querySelector('.start-quiz');
     startQuizMain.remove();
     
-    scoreSpan.textContent = 75;
-    score = 75;
-
     startTimer = setInterval(function(){
         score--;
         scoreSpan.textContent = score;
@@ -68,14 +66,19 @@ var startQuizBtnHandler = function() {
             clearInterval(startTimer);
             endGame();
         }
-        console.log(score);
     }, 1000);
     
     displayNextQuestion();
-
 };
 
 var displayNextQuestion = function() {
+    if (resetButtons.length > 0) {
+        for (let i = 0; i < resetButtons.length; i++) {
+            resetButtons[i].disabled = false;
+        }
+        resetButtons = [];
+    }
+
     var question = document.querySelector('.question');
     randomNum = Math.floor(Math.random()* questionsArr.length);
     if (usedQuestions.length === questionsArr.length) {
@@ -86,8 +89,6 @@ var displayNextQuestion = function() {
         usedQuestions.push(randomNum);
     }
 
-    console.log(usedQuestions);
-
     var randomQuestion = questionsArr[randomNum];
     question.textContent = randomQuestion.question;
 
@@ -96,53 +97,71 @@ var displayNextQuestion = function() {
     answers.innerHTML = '';
     for (i = 0; i < answersArr.length; i ++) {
         var button = document.createElement('button');
-        button.setAttribute('text', answersArr[i]);
+        button.className = 'answer-choices';
         button.innerHTML = answersArr[i];
         answers.appendChild(button);
-        
+        resetButtons.push(button);
+        button.addEventListener('click', checkAnswer);
     }
-
 };
  
 var checkAnswer = function(event) {
+    if (resetButtons.length > 0) {
+        for (let i = 0; i < resetButtons.length; i++) {
+            resetButtons[i].disabled = true;
+        }
+        resetButtons = [];
+    }
+
     var userAnswer = event.target.textContent;
-    console.log(event.target);
-    console.log(userAnswer);
+
     if (userAnswer === questionsArr[randomNum].correctAnswer) {
         validateAnswer.textContent = 'Correct!';
         questionSection.appendChild(validateAnswer);
+        
     } else {
         validateAnswer.textContent = 'Wrong!';
         questionSection.appendChild(validateAnswer);
         score -= 10;
-    }
-    console.log(score);
-
+    } 
+  
     if (usedQuestions.length === questionsArr.length) {
-        clearInterval(startTimer);
-        endGame();
+        for (let i = 0; i < resetButtons.length; i++) {
+            resetButtons[i].disabled = true;
+    
+        }
+        
+        setTimeout( function() {
+            clearInterval(startTimer);
+            endGame();
+        }, 1000)
+       
+    }
+
+    if (score === 0) {
+        setTimeout( function() {
+            clearInterval(startTimer);
+            endGame();
+        }, 1000)
     }
 
     setTimeout(function() {
-        validateAnswer.textContent = '';
+        validateAnswer.remove();
         displayNextQuestion ();
     }, 1000);
-    
-
 };
 
 var endGame = function() {
     setTimeout(function() {
         questionSection.remove();
         body.appendChild(endQuiz);
-        var finalScore = document.querySelector('user-final-score');
+        var finalScore = document.querySelector('.user-final-score');
         finalScore.textContent = 'Your final score is ' + score + '.';
+
     }, 1000);
-    
 };
 
 
 startQuizBtn.addEventListener('click', startQuizBtnHandler);
 
 
-answersEl.addEventListener('click', checkAnswer);
