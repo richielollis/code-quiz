@@ -16,14 +16,12 @@ timer.appendChild(scoreSpan);
 var startQuizBtn = document.querySelector('.start-quiz-btn');
 
 var endQuiz = document.querySelector('.end-quiz');
-endQuiz.remove();
+endQuiz.style.display = 'none';
 
 var answersEl = document.querySelector('.answers');
 var questionSection = document.querySelector('.question-section');
 var validateAnswer = document.createElement('p');
 validateAnswer.className = 'validate-answer';
-
-
 
 var resetButtons = [];
 
@@ -67,7 +65,7 @@ var startQuizBtnHandler = function() {
             clearInterval(startTimer);
             endGame();
         }
-    }, 1000);
+    }, 500);
     
     displayNextQuestion();
 };
@@ -140,7 +138,7 @@ var checkAnswer = function(event) {
         setTimeout( function() {
             clearInterval(startTimer);
             endGame();
-        }, 1000)
+        }, 500)
        
     }
 
@@ -148,25 +146,21 @@ var checkAnswer = function(event) {
         setTimeout( function() {
             clearInterval(startTimer);
             endGame();
-        }, 1000)
+        }, 500)
     }
 
     setTimeout(function() {
         validateAnswer.remove();
         displayNextQuestion ();
-    }, 1000);
+    }, 500);
 };
 
 var endGame = function() {
-    setTimeout(function() {
         questionSection.remove();
-        body.appendChild(endQuiz);
+        endQuiz.style.display = 'initial';
         var finalScore = document.querySelector('.user-final-score');
         finalScore.textContent = 'Your final score is ' + score + '.';
-
-    }, 1000);
-
-
+        userInitialsForm.addEventListener('submit', userSubmitHandler);
 };
 
 var highScores = [];
@@ -177,7 +171,7 @@ var userSubmitHandler = function(event) {
     event.preventDefault();
 
     var userInitials = document.querySelector('#initials').value;
-
+    console.log(userInitials)
     if (!userInitials) {
         alert('You need to enter your initials!')
         return false;
@@ -189,16 +183,32 @@ var userSubmitHandler = function(event) {
     };
 
     highScores.push(highScoreObj)
-   console.log(highScores)
+    console.log(highScores)
+    saveInitials ();
+    addHighScoreEl(highScoreObj);
+    userInitials.reset();
 };
 
 var saveInitials = function() {
-    localStorage.setItem('initials', JSON.stringify(highScores));
+    localStorage.setItem('userScore', JSON.stringify(highScores));
+
+};
+
+var recentHighScores = document.querySelector('#recent-high-scores');
+
+var recentHighScoresArr = [];
+
+var addHighScoreEl = function(highScoreObj) {
+    var highScoreEl = document.createElement('li');
+    highScoreEl.textContent = JSON.stringify(highScoreObj.initials) + ' ' + '-' + ' ' + JSON.stringify(highScoreObj.score);
+    console.log(highScoreEl.textContent);
+    recentHighScoresArr.push(highScoreEl.textContent);
+    recentHighScores.appendChild(highScoreEl.textContent);
 
 };
 
 var loadHighScores = function () {
-    var highScores = localStorage.getItem("tasks");
+    var highScores = localStorage.getItem("userScore");
 
     if (!highScores) {
       return false;
@@ -207,7 +217,7 @@ var loadHighScores = function () {
     highScores = JSON.parse(highScores);
 
     for (var i = 0; i < highScores.length; i++) {
-        addHighScoreEl(savedTasks[i]);
+        addHighScoreEl(highScores[i]);
 
     }
 
@@ -218,3 +228,6 @@ startQuizBtn.addEventListener('click', startQuizBtnHandler);
 userInitialsForm.addEventListener('submit', userSubmitHandler);
 
 
+// NEED TO REVISE HIGHSCORES ELEMENT CREATOR AND MAKE SURE LOCALSTORAGE IS WORKING PROPERLY 
+// FINISH README
+// ADD COMMENTS EVERYWHERE ABOUT WHAT ELEMENTS AND FUNCTIONS DO WHAT 
