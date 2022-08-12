@@ -65,7 +65,7 @@ var startQuizBtnHandler = function() {
             clearInterval(startTimer);
             endGame();
         }
-    }, 500);
+    }, 1000);
     
     displayNextQuestion();
 };
@@ -228,6 +228,7 @@ startQuizBtn.addEventListener('click', startQuizBtnHandler);
 userInitialsForm.addEventListener('submit', userSubmitHandler);
 
 
-// NEED TO REVISE HIGHSCORES ELEMENT CREATOR AND MAKE SURE LOCALSTORAGE IS WORKING PROPERLY 
+// NEED TO REVISE HIGHSCORES ELEMENT0 CREATOR AND MAKE SURE LOCALSTORAGE IS WORKING PROPERLY 
+// POTENTIALLY MAKE JS FILE FOR HIGHSCORES PAGE AND MOVE OVER SOME FUCNTIONS THAT ARE NEEDED
 // FINISH README
 // ADD COMMENTS EVERYWHERE ABOUT WHAT ELEMENTS AND FUNCTIONS DO WHAT 
